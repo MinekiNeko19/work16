@@ -3,23 +3,32 @@
 #include <time.h>
 
 int main() {
-    printf("Parent PID %d prefork\n", getpid());
+    printf("Parent PID %d is running to catch its children!\n", getpid());
 
-    int status,w,f1,f2;
+    int status,w;
     srand(time(NULL));
     int slec;
-    f1 = fork();
-    f2 = fork();
+    int f1 = fork();
+    int f2 = fork();
+    // printf("Child PID %d and Child PID %d are sleep running!\n\n", f1, f2);
 
-    // if (f1||f2) {
-    //     printf("still the parent %d\n", getpid());
-    //     f2 = fork();
-    //     printf("parent %d\tchild1 %d\tchild2 %d\n", getpid(), f1, f2);
-
-    // } else {
-    //     printf("child %d parent %d\n", getpid(), getppid());
-    // }
-    printf("pid: %d\tppid: %d\n", getpid(), getppid());
+    // printf("seconds to sleep: %d\n",slec);
+    if (f1 && f2) {
+        printf("Actually... parent PID %d will wait for a child to stop\n", getpid());
+        w = wait(&status);
+        // if (f1) {
+        //     printf("child PID %d is here!\n",f1);
+        // }
+        // if (f2){
+        //     printf("child PID %d is here!\n",f2);
+        // }
+        printf("parent %d ended because a child ended\n", getpid());
+    }
+    else {
+        slec = 2+(rand())%4;
+        printf("Child PID %d with parent %d is sleep running for %d seconds now\n", getpid(), getppid(), slec);
+        sleep(slec);
+    }
 
     return 0;
 }
